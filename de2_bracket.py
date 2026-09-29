@@ -78,7 +78,6 @@ def simulate_single_elimination(n_seeds: int, ratings: dict, rng: random.Random)
 class DoubleEliminationResult:
     n_seeds: int
     wb_rounds: tuple[tuple[int, ...], ...]
-    lb_stages: tuple[tuple[str, tuple[int, ...]], ...]  # (Label, Ueberlebende) je Verlierer-Baum-Etappe
     matches: tuple[Match, ...]
     champion: int
     n_matches: int
@@ -102,7 +101,6 @@ def simulate_double_elimination(n_seeds: int, ratings: dict, rng: random.Random)
 
     wb_slots = standard_seed_order(n_seeds)
     wb_rounds = [tuple(wb_slots)]
-    lb_stages: list[tuple[str, tuple[int, ...]]] = []
 
     winners, losers_r1 = [], []
     for i in range(0, len(wb_slots), 2):
@@ -112,7 +110,6 @@ def simulate_double_elimination(n_seeds: int, ratings: dict, rng: random.Random)
     wb_rounds.append(tuple(winners))
     wb_current = winners
     lb_current = losers_r1
-    lb_stages.append(("Eintritt (WB R1 Verlierer)", tuple(lb_current)))
 
     for wb_round in range(2, k + 1):
         wb_winners, wb_losers = [], []
@@ -127,15 +124,12 @@ def simulate_double_elimination(n_seeds: int, ratings: dict, rng: random.Random)
         for i in range(0, len(lb_current), 2):
             w, _l = play(lb_current[i], lb_current[i + 1], "LB", f"LB{wb_round-1}-minor")
             minor_winners.append(w)
-        if minor_winners:
-            lb_stages.append((f"Minor vor Runde {wb_round}", tuple(minor_winners)))
 
         major_winners = []
         for mw, wl in zip(minor_winners, wb_losers):
             w, _l = play(mw, wl, "LB", f"LB{wb_round-1}-major")
             major_winners.append(w)
         lb_current = major_winners
-        lb_stages.append((f"Major nach WB-Runde {wb_round}", tuple(lb_current)))
 
     wb_champion = wb_current[0]
     lb_champion = lb_current[0]
@@ -149,7 +143,6 @@ def simulate_double_elimination(n_seeds: int, ratings: dict, rng: random.Random)
     return DoubleEliminationResult(
         n_seeds=n_seeds,
         wb_rounds=tuple(wb_rounds),
-        lb_stages=tuple(lb_stages),
         matches=tuple(matches),
         champion=champion,
         n_matches=len(matches),

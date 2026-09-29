@@ -21,7 +21,7 @@ from de2_presets import (
     sync_query_params,
 )
 from de2_visualization import (
-    build_losers_bracket_table,
+    build_losers_bracket_tree,
     build_match_count_chart,
     build_win_probability_chart,
     build_winners_bracket_tree,
@@ -125,9 +125,10 @@ with col_wb:
     st.plotly_chart(build_winners_bracket_tree(double_result.wb_rounds, double_result.champion),
                      width="stretch", key=f"wb_{n_seeds}_{seed}_{favorite_edge}")
 with col_lb:
-    st.markdown("### Verlierer-Baum (Etappen)")
-    st.plotly_chart(build_losers_bracket_table(double_result.lb_stages, double_result.champion),
+    st.markdown("### Verlierer-Baum")
+    st.plotly_chart(build_losers_bracket_tree(double_result.matches, double_result.champion),
                      width="stretch", key=f"lb_{n_seeds}_{seed}_{favorite_edge}")
+    st.caption("Orange = frisch aus dem Gewinner-Baum durchgefallen oder Verlierer-Baum-Sieger, Gold = Turniersieger.")
 
 st.caption(
     f"Turnier-Sieger: Setzplatz {double_result.champion} - {double_result.n_matches} Spiele insgesamt"

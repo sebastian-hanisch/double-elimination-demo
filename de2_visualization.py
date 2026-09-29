@@ -57,20 +57,89 @@ def build_winners_bracket_tree(rounds: tuple, champion: int) -> go.Figure:
     return lock_axes(fig)
 
 
-def build_losers_bracket_table(lb_stages: tuple, champion: int) -> go.Figure:
-    header = ["Etappe"] + [f"Platz {i+1}" for i in range(max(len(s) for _, s in lb_stages))]
-    rows = []
-    for label, survivors in lb_stages:
-        row = [label] + [str(s) if s != champion else f"{s} 🏆" for s in survivors]
-        row += [""] * (len(header) - len(row))
-        rows.append(row)
-    columns = list(zip(*rows)) if rows else [[]]
-    fig = go.Figure(data=[go.Table(
-        header=dict(values=header, fill_color="#14233B", font=dict(color="white"), align="center"),
-        cells=dict(values=columns, align="center", height=26),
-    )])
-    fig.update_layout(margin=dict(l=0, r=0, t=0, b=0), height=min(80 + len(rows) * 30, 500))
-    return fig
+def build_losers_bracket_tree(matches: tuple, champion: int) -> go.Figure:
+    """Echter Baum wie build_winners_bracket_tree, nicht nur eine Etappen-Tabelle - Minor-Runden
+    verbinden zwei Knoten derselben Spalte wie im Gewinner-Baum, Major-Runden zeigen zusaetzlich den
+    frisch aus dem Gewinner-Baum durchgefallenen Gegner als eigenen Knoten DERSELBEN Spalte (leicht
+    versetzt), bevor beide in der naechsten Spalte zum Sieger verschmelzen."""
+    lb_matches = [m for m in matches if m.bracket == "LB"]
+    groups: list[tuple[str, list]] = []
+    for m in lb_matches:
+        if groups and groups[-1][0] == m.label:
+            groups[-1][1].append(m)
+        else:
+            groups.append((m.label, [m]))
+
+    first_label, first_matches = groups[0]
+    entry_teams = sorted({s for m in first_matches for s in (m.seed_a, m.seed_b)})
+
+    node_x: dict[int, list[float]] = {}
+    node_y: dict[int, list[float]] = {}
+    node_text: dict[int, list[str]] = {}
+    edges: list[tuple[float, float, float, float]] = []
+
+    def add_node(seed, x, y, text):
+        node_x.setdefault(seed, []).append(x)
+        node_y.setdefault(seed, []).append(y)
+        node_text.setdefault(seed, []).append(text)
+
+    col = 0
+    y_pos = {s: i * 2 for i, s in enumerate(entry_teams)}
+    for s in entry_teams:
+        add_node(s, col, y_pos[s], f"Setzplatz {s} - faellt aus dem Gewinner-Baum durch")
+    col_labels = {0: "Eintritt"}
+
+    for label, ms in groups:
+        is_minor = "minor" in label
+        if is_minor:
+            col += 1
+            winners_y = {}
+            for m in ms:
+                y = (y_pos[m.seed_a] + y_pos[m.seed_b]) / 2
+                edges.append((col - 1, y_pos[m.seed_a], col, y))
+                edges.append((col - 1, y_pos[m.seed_b], col, y))
+                winners_y[m.winner] = y
+                add_node(m.winner, col, y, f"Setzplatz {m.winner} gewinnt {label}")
+            y_pos = winners_y
+            col_labels[col] = "Minor"
+        else:
+            for m in ms:
+                fresh = m.seed_a if m.seed_a not in y_pos else m.seed_b
+                carried = m.seed_b if fresh == m.seed_a else m.seed_a
+                y_pos[fresh] = y_pos[carried] + 0.7
+                add_node(fresh, col, y_pos[fresh], f"Setzplatz {fresh} - frisch aus dem Gewinner-Baum durchgefallen")
+            col += 1
+            winners_y = {}
+            for m in ms:
+                y = (y_pos[m.seed_a] + y_pos[m.seed_b]) / 2
+                edges.append((col - 1, y_pos[m.seed_a], col, y))
+                edges.append((col - 1, y_pos[m.seed_b], col, y))
+                winners_y[m.winner] = y
+                add_node(m.winner, col, y, f"Setzplatz {m.winner} gewinnt {label}")
+            y_pos = winners_y
+            col_labels[col] = "Major"
+
+    fig = go.Figure()
+    for (x0, y0, x1, y1) in edges:
+        fig.add_trace(go.Scatter(x=[x0, x1], y=[y0, y1], mode="lines", line=dict(color=GRAY, width=2),
+                                  hoverinfo="skip", showlegend=False))
+    for seed, xs in node_x.items():
+        for x, y, text in zip(xs, node_y[seed], node_text[seed]):
+            is_final_champion = x == col and seed == champion
+            color = GOLD if is_final_champion else ORANGE
+            fig.add_trace(go.Scatter(
+                x=[x], y=[y], mode="markers+text", text=[str(seed)],
+                textposition="middle center", textfont=dict(color="white", size=10),
+                marker=dict(size=22, color=color, line=dict(width=2, color="white")),
+                hovertext=text, hoverinfo="text", showlegend=False,
+            ))
+
+    tick_x = sorted(col_labels)
+    fig.update_xaxes(tickmode="array", tickvals=tick_x, ticktext=[col_labels[x] for x in tick_x])
+    fig.update_yaxes(visible=False, autorange="reversed")
+    fig.update_layout(template="plotly_white", height=max(320, 28 * len(entry_teams) * 2),
+                       margin=dict(l=10, r=10, t=10, b=30))
+    return lock_axes(fig)
 
 
 def build_win_probability_chart(stats: list[ComparisonStats]) -> go.Figure:

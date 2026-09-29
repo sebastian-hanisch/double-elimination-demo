@@ -26,7 +26,9 @@ Differenz zwischen beiden Formaten fast auf null).
 
 1. **Ein Team auf seinem Weg**: die Route eines gewählten Teams durch Gewinner- und Verlierer-Baum,
    Spiel für Spiel - Kernerzählung eines Doppel-K.-o.-Systems ("verloren, zurückgekämpft, ...").
-2. **Gewinner-Baum + Verlierer-Baum-Etappen**: vollständiger Turnierbaum plus Etappentabelle.
+2. **Gewinner-Baum + Verlierer-Baum**: beide als echter Turnierbaum, im selben visuellen Stil wie
+   Stück 2 - der Verlierer-Baum zeigt zusätzlich farblich, welche Teams frisch aus dem Gewinner-Baum
+   durchgefallen sind.
 3. **📐 Schützt der Verlierer-Baum den wirklich stärksten Teilnehmer?**: Sieg-Wahrscheinlichkeit im
    Vergleich zu Stück 2s Einzel-K.-o.
 4. **🔬 Experiment**: der Spielanzahl-Preis der zweiten Chance.
