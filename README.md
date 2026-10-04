@@ -18,7 +18,7 @@ Gemessen (3.000 Wiederholungen je Teilnehmerzahl, Rating-Vorsprung 500 für Setz
 | 32 | 75,8 % | 93,2 % | 31,0 | 62,2 |
 
 Der Verlierer-Baum schützt den wirklich stärksten Teilnehmer spürbar besser vor einem einzelnen
-schlechten Tag - **aber zu einem echten Preis**: fast doppelt so viele Spiele. Der Effekt braucht zudem
+schlechten Tag - **aber zu einem echten Preis**: doppelt so viele Spiele. Der Effekt braucht zudem
 einen echten Stärkeunterschied (Preset "Ausgeglichenes Feld": bei Rating-Vorsprung 0 schrumpft die
 Differenz zwischen beiden Formaten fast auf null).
 
@@ -65,7 +65,7 @@ variieren hier. Kein Remis, reiner Elo-Münzwurf wie in Stück 2.
   ausscheidende Team hat exakt 2 Niederlagen, Gesamtspielzahl folgt der $2n{-}2$/$2n{-}1$-Formel,
   Bracket-Reset erzeugt genau 2 Finalspiele.
 - **Politik-Vergleich** (`tests/test_evaluation.py`): Doppel-K.-o. schützt den Favoriten immer besser
-  als Einzel-K.-o., braucht knapp doppelt so viele Spiele, der Vorteil schrumpft ohne Rating-Vorsprung.
+  als Einzel-K.-o., braucht doppelt so viele Spiele, der Vorteil schrumpft ohne Rating-Vorsprung.
 - **Regressionstests** (`tests/test_claims.py`): konkrete Zahlen aus der Tabelle oben fixiert.
 
 ## Dateistruktur
@@ -99,5 +99,4 @@ python -m pytest tests/ -v
 
 ---
 
-Teil des Portfolios von [Sebastian Hanisch](https://sebastianhanisch.net) - Operations Research und
-Machine Learning.
+Diese Demo ist Teil des Portfolios von [Sebastian Hanisch](https://sebastianhanisch.net) – Operations Research und Machine Learning ([Über mich](https://sebastianhanisch.net/ueber-mich.html)). Mehr zur Reihe: [Turnierplanung: 7 Wege zum Turnierplan](https://sebastianhanisch.net/konzepte-turnierplanung.html).

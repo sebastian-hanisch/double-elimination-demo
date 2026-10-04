@@ -156,9 +156,9 @@ st.plotly_chart(build_match_count_chart(sweep), width="stretch", key="match_coun
 if current is not None:
     st.caption(
         f"Bei {n_seeds} Teams: Einzel-K.-o. braucht im Mittel {current.mean_matches_single:.1f} Spiele, "
-        f"Doppel-K.-o. {current.mean_matches_double:.1f} - knapp doppelt so viele (plus vereinzelt ein "
+        f"Doppel-K.-o. {current.mean_matches_double:.1f} - doppelt so viele (plus vereinzelt ein "
         f"Bracket-Reset-Spiel, hier in {current.reset_rate:.1%} der Läufe). Der Fairness-Gewinn hat "
-        "einen echten, messbaren Preis: fast doppelt so viele Spiele und damit Spielzeit."
+        "einen echten, messbaren Preis: doppelt so viele Spiele und damit Spielzeit."
     )
 
 st.markdown("---")
@@ -201,6 +201,6 @@ st.markdown("---")
 
 st.caption(
     "Diese Demo ist Teil des Portfolios von [Sebastian Hanisch](https://sebastianhanisch.net) – "
-    "Operations Research und Machine Learning. Interesse an einer maßgeschneiderten Lösung für "
-    "Ihr Unternehmen? [Kontakt aufnehmen](https://sebastianhanisch.net/kontakt.html)"
+    "Operations Research und Machine Learning ([Über mich](https://sebastianhanisch.net/ueber-mich.html)). "
+    "Mehr zur Reihe: [Turnierplanung: 7 Wege zum Turnierplan](https://sebastianhanisch.net/konzepte-turnierplanung.html)."
 )

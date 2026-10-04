@@ -86,7 +86,7 @@ def build_losers_bracket_tree(matches: tuple, champion: int) -> go.Figure:
     col = 0
     y_pos = {s: i * 2 for i, s in enumerate(entry_teams)}
     for s in entry_teams:
-        add_node(s, col, y_pos[s], f"Setzplatz {s} - faellt aus dem Gewinner-Baum durch")
+        add_node(s, col, y_pos[s], f"Setzplatz {s} - fällt aus dem Gewinner-Baum durch")
     col_labels = {0: "Eintritt"}
 
     for label, ms in groups:
