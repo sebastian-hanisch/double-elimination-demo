@@ -9,9 +9,9 @@ from de2_evaluation import compare_single_vs_double
 @pytest.mark.parametrize(
     "n, p_single, p_double, m_single, m_double",
     [
-        (8, 0.855, 0.965, 7.0, 14.19),
-        (16, 0.805, 0.948, 15.0, 30.21),
-        (32, 0.758, 0.932, 31.0, 62.23),
+        (8, 0.855, 0.964, 7.0, 14.19),
+        (16, 0.805, 0.947, 15.0, 30.21),
+        (32, 0.758, 0.933, 31.0, 62.24),
     ],
 )
 def test_readme_numbers(n, p_single, p_double, m_single, m_double):

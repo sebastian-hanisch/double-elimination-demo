@@ -170,8 +170,10 @@ with st.expander("🚧 Wo die Annahmen enden"):
   ausgeklammert, um die Verlierer-Baum-Konstruktion nicht zusätzlich zu verkomplizieren.
 - **Verlierer-Baum-Paarung ist eine wohldefinierte, aber nicht die einzig "offizielle" Regel.** Reale
   Turnierplattformen (Toornament, Challonge, ...) variieren in der genauen Paarung innerhalb einer
-  Minor-Runde - die Minor-/Major-Grundstruktur (verhindert sofortige Wiederholungsspiele) ist
-  Standard, die Reihenfolge innerhalb einer Runde nicht.
+  Minor-Runde - die Minor-/Major-Grundstruktur mit gekreuzter Einordnung der frischen Verlierer
+  (verhindert sofortige Wiederholungsspiele bis zur vorletzten Stufe) ist Standard, die Reihenfolge
+  innerhalb einer Runde nicht. In der letzten Stufe, in den Minor-Runden und im Finale bleiben
+  Wiederholungen möglich.
 - **Kein Remis, keine echten Ergebnisse** - reiner Elo-Münzwurf wie in Stück 2.
 - **Der gemessene Fairness-Gewinn braucht einen echten Stärkeunterschied.** Bei Rating-Vorsprung 0
   (Preset "Ausgeglichenes Feld") verschwindet der Effekt fast vollständig - der Verlierer-Baum schützt
@@ -185,8 +187,9 @@ with st.expander("📐 Mathematische Formulierung"):
 **Gewinner-Baum**: identische Setzlisten-Rekursion wie Stück 2 (`standard_seed_order`). **Verlierer-
 Baum**: WB-Runde $r$ liefert $n/2^r$ frische Verlierer. Jede LB-Etappe ab der zweiten hat eine
 Minor-Phase (bisherige LB-Teilnehmer spielen gegeneinander) und eine Major-Phase (Minor-Sieger gegen
-die frischen WB-Verlierer derselben Ebene) - $k{-}1$ solcher Doppel-Etappen für $n=2^k$ Teams, macht
-insgesamt $2(k{-}1)$ LB-Runden. Gesamtspielzahl ohne Bracket-Reset: $2n-2$ (jedes ausscheidende Team
+die frischen WB-Verlierer derselben Ebene, und zwar gekreuzt: der Minor-Sieger $i$ trifft den Verlierer des
+Nachbarspiels $i \oplus 1$, sonst träfe er sofort das Team wieder, das ihn aus dem Gewinner-Baum geworfen hat) -
+$k{-}1$ solcher Doppel-Etappen für $n=2^k$ Teams, macht insgesamt $2(k{-}1)$ LB-Runden. Gesamtspielzahl ohne Bracket-Reset: $2n-2$ (jedes ausscheidende Team
 verliert genau zweimal, der Champion höchstens einmal); mit Reset: $2n-1$.
 
 **Bracket-Reset**: das Finale zwischen Gewinner-Baum-Champion (0 Niederlagen) und Verlierer-Baum-

@@ -13,9 +13,9 @@ Gemessen (3.000 Wiederholungen je Teilnehmerzahl, Rating-Vorsprung 500 für Setz
 
 | Teams | P(Favorit gewinnt) Einzel | P(Favorit gewinnt) Doppel | Ø Spiele Einzel | Ø Spiele Doppel |
 |---|---|---|---|---|
-| 8  | 85,5 % | 96,5 % | 7,0  | 14,2 |
-| 16 | 80,5 % | 94,8 % | 15,0 | 30,2 |
-| 32 | 75,8 % | 93,2 % | 31,0 | 62,2 |
+| 8  | 85,5 % | 96,4 % | 7,0  | 14,2 |
+| 16 | 80,5 % | 94,7 % | 15,0 | 30,2 |
+| 32 | 75,8 % | 93,3 % | 31,0 | 62,2 |
 
 Der Verlierer-Baum schützt den wirklich stärksten Teilnehmer spürbar besser vor einem einzelnen
 schlechten Tag - **aber zu einem echten Preis**: doppelt so viele Spiele. Der Effekt braucht zudem
@@ -41,8 +41,13 @@ Differenz zwischen beiden Formaten fast auf null).
   Gewinner-Baum-Runde liefert frische Verlierer. Ab der zweiten Etappe hat der Verlierer-Baum eine
   **Minor-Phase** (bisherige Teilnehmer spielen gegeneinander) und eine **Major-Phase** (Minor-Sieger
   gegen die frischen Gewinner-Baum-Verlierer derselben Ebene) - verhindert sofortige
-  Wiederholungsspiele. Für $n=2^k$ Teams: $k-1$ solcher Doppel-Etappen, $2(k-1)$ Verlierer-Baum-Runden
-  insgesamt.
+  Wiederholungsspiele, **wenn die frischen Verlierer gekreuzt eingeordnet werden**: der Minor-Sieger $i$
+  trifft den Verlierer des Nachbarspiels ($i \oplus 1$). Ohne Kreuzung kam es in der ersten Major-Runde bei gleich starken Teams in 75 % der
+  Turniere mit 8 Teams (über 90 % ab 16 Teams) zu einem Wiederholungsspiel (Orakeltest); mit Kreuzung kommt bis zur
+  vorletzten Stufe keine Wiederholung vor. Möglich bleiben Wiederholungen in der letzten Stufe
+  (Verlierer des Gewinner-Baum-Finales gegen den Rest des Verlierer-Baums), in den Minor-Runden (einfache
+  Paarung nach Listenreihenfolge) und im
+  Finale. Für $n=2^k$ Teams: $k-1$ solcher Doppel-Etappen, $2(k-1)$ Verlierer-Baum-Runden insgesamt.
 - **Bracket-Reset**: Finale zwischen Gewinner-Baum-Champion (0 Niederlagen) und Verlierer-Baum-Champion
   (1 Niederlage) - gewinnt Letzterer, folgt ein entscheidendes zweites Spiel (beide stünden bei 1
   Niederlage). Gesamtspielzahl: $2n-2$ ohne Reset, $2n-1$ mit Reset (jedes ausscheidende Team verliert
@@ -67,6 +72,7 @@ variieren hier. Kein Remis, reiner Elo-Münzwurf wie in Stück 2.
 - **Politik-Vergleich** (`tests/test_evaluation.py`): Doppel-K.-o. schützt den Favoriten immer besser
   als Einzel-K.-o., braucht doppelt so viele Spiele, der Vorteil schrumpft ohne Rating-Vorsprung.
 - **Regressionstests** (`tests/test_claims.py`): konkrete Zahlen aus der Tabelle oben fixiert.
+- **Orakel** (`tests/test_oracle_double_elimination.py`): alle Spielausgänge für 4 und 8 Teams durchgerechnet (Siegwahrscheinlichkeit, Spielzahl, Reset-Rate gegen die Simulation) und die Kreuzung des Verlierer-Baums (keine Wiederholung in der Major-Phase bis zur vorletzten Stufe).
 
 ## Dateistruktur
 

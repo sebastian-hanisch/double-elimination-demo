@@ -6,7 +6,11 @@ Verlierer-Baum-Konstruktion (per WebSearch verifiziert, siehe README): jede Rund
 liefert frische Verlierer, die in den Verlierer-Baum "durchfallen". Jede Verlierer-Baum-Runde ab der
 zweiten besteht aus zwei Phasen - Minor (die bisherigen Verlierer-Baum-Teilnehmer spielen gegeneinander)
 und Major (die Minor-Sieger spielen gegen die frischen Gewinner-Baum-Verlierer derselben Ebene). Das
-verhindert, dass zwei Teams, die gerade erst gegeneinander gespielt haben, sofort wieder aufeinandertreffen.
+verhindert, dass zwei Teams, die gerade erst gegeneinander gespielt haben, sofort wieder aufeinandertreffen -
+aber nur, wenn die frischen Verlierer GEKREUZT eingeordnet werden: in der Major-Phase trifft der Minor-Sieger i den
+Verlierer des Nachbarspiels (i xor 1). So kommt es bis zur vorletzten Stufe zu keiner Wiederholung eines früheren
+Spiels in der Major-Phase; in der letzten Stufe (Verlierer des Gewinner-Baum-Finales gegen den Rest des Verlierer-Baums),
+in den Minor-Runden (einfache Listenpaarung) und im Finale sind Wiederholungen möglich.
 
 Bewusste Vereinfachung (siehe README "Wo die Annahmen enden"): die GENAUE Paarung INNERHALB einer Minor-
 Runde (wer gegen wen) ist zwischen realen Turnierplattformen nicht einheitlich - hier eine einfache,
@@ -125,8 +129,12 @@ def simulate_double_elimination(n_seeds: int, ratings: dict, rng: random.Random)
             w, _l = play(lb_current[i], lb_current[i + 1], "LB", f"LB{wb_round-1}-minor")
             minor_winners.append(w)
 
+        # Kreuzung: der Minor-Sieger i trifft den frischen Verlierer des NACHBARspiels (i xor 1), nicht den des eigenen Spiels:
+        # Minor-Runde i fasst die Verlierer derselben Gewinner-Baum-Spiele zusammen, aus denen auch das Gewinner-Baum-Spiel i hervorging -
+        # ohne Kreuzung träfe in der ersten Major-Runde in der Mehrzahl der Turniere (gemessen 75 % bei 8, über 90 % ab 16 Teams) ein Team sofort das Team wieder, das es aus dem Gewinner-Baum geworfen hat.
+        crossed = [wb_losers[i ^ 1] for i in range(len(wb_losers))] if len(wb_losers) > 1 else wb_losers
         major_winners = []
-        for mw, wl in zip(minor_winners, wb_losers):
+        for mw, wl in zip(minor_winners, crossed):
             w, _l = play(mw, wl, "LB", f"LB{wb_round-1}-major")
             major_winners.append(w)
         lb_current = major_winners
