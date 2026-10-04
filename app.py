@@ -91,7 +91,7 @@ init_session_state_defaults()
 with st.sidebar:
     st.header("⚙️ Einstellungen")
     n_seeds = st.select_slider("Teilnehmerzahl", options=C.N_SEEDS_OPTIONS, key="n_seeds_select")
-    seed = st.slider("Saatwert", *bounds("seed_slider"), key="seed_slider",
+    seed = st.slider("Zufalls-Seed", *bounds("seed_slider"), key="seed_slider",
                       help="Bestimmt alle simulierten Spielergebnisse.")
     favorite_edge = st.slider(
         "Rating-Vorsprung Setzplatz 1", *bounds("favorite_edge_slider"), step=C.FAVORITE_EDGE_STEP,

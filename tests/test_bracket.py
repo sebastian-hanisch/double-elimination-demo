@@ -56,7 +56,7 @@ def test_double_elimination_rejects_too_small_field():
 
 
 def test_bracket_reset_requires_loser_bracket_finalist_to_beat_champion_twice():
-    """Findet einen konkreten Saatwert mit Reset und prueft, dass GENAU 2 Finalspiele geloggt sind."""
+    """Findet einen konkreten Seed mit Reset und prueft, dass GENAU 2 Finalspiele geloggt sind."""
     ratings = {s: 1500.0 for s in range(1, 33)}
     ratings[1] = 2000.0
     result = simulate_double_elimination(32, ratings, random.Random(1))
