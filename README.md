@@ -3,7 +3,7 @@
 Siebtes und letztes Stück der **Turnierplanung**-Linie der "Konzepte"-Reihe von [sebastianhanisch.net](https://sebastianhanisch.net).
 Interaktive Demo: `streamlit run app.py`.
 
-**[→ Demo live ausprobieren](#) (Deploy offen)**
+**[→ Demo live ausprobieren](https://sebastianhanisch-double-elimination-demo.streamlit.app/)**
 
 ## Ergebnis in Kürze
 
