@@ -22,6 +22,6 @@ PRESETS = {
 PRESET_HELP = {
     "Normalfall (8 Teams)": "8 Teams, deutlicher Favorit auf Setzplatz 1 - Standardgröße für den direkten Vergleich.",
     "Doppelter Schutz sichtbar (16 Teams)": "Bei 16 Teams zeigt sich der Effekt der zweiten Chance besonders deutlich in der Sieg-Wahrscheinlichkeit.",
-    "Bracket-Reset erlebt (32 Teams)": "Bei diesem Saatwert gewinnt das Verlierer-Baum-Team das erste Finale - es kommt zum Bracket-Reset (zweites, entscheidendes Spiel).",
+    "Bracket-Reset erlebt (32 Teams)": "Bei diesem Zufalls-Seed gewinnt das Verlierer-Baum-Team das erste Finale - es kommt zum Bracket-Reset (zweites, entscheidendes Spiel).",
     "Ausgeglichenes Feld (kein Favorit)": "Alle Teams gleich stark - zeigt, dass der Doppel-K.-o.-Vorteil an einen ECHTEN Stärkeunterschied gebunden ist, nicht an die Setzliste allein.",
 }
